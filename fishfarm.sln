@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25123.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{DF26B65B-5618-4FF8-BAF4-7688AE7F7B63}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{24A7BF2E-7757-4E54-AF83-594BF5F0827D}"
+	ProjectSection(SolutionItems) = preProject
+		global.json = global.json
+	EndProjectSection
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "fishfarm", "src\fishfarm\fishfarm.xproj", "{96955C5C-C80C-454A-BE25-43A32875B479}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{96955C5C-C80C-454A-BE25-43A32875B479}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96955C5C-C80C-454A-BE25-43A32875B479}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96955C5C-C80C-454A-BE25-43A32875B479}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96955C5C-C80C-454A-BE25-43A32875B479}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{96955C5C-C80C-454A-BE25-43A32875B479} = {DF26B65B-5618-4FF8-BAF4-7688AE7F7B63}
+	EndGlobalSection
+EndGlobal
