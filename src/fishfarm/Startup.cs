@@ -23,7 +23,7 @@ namespace fishfarm
             var builder = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json")
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
-
+            //"Server=(localdb)\\mssqllocaldb;Database=fishfarmdb;Trusted_Connection=True;MultipleActiveResultSets=true"
             if (env.IsDevelopment())
             {
                 // For more details on using the user secret store see http://go.microsoft.com/fwlink/?LinkID=532709
