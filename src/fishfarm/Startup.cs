@@ -11,6 +11,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using fishfarm.Models;
 using fishfarm.Services;
+using Microsoft.AspNet.Antiforgery;
+using Microsoft.AspNet.Http;
+using Microsoft.AspNet.Http.Internal;
+using Microsoft.Extensions.Primitives;
 
 namespace fishfarm
 {
@@ -42,6 +46,9 @@ namespace fishfarm
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //services.ConfigureAntiforgery(options => options.FormFieldName = "X-XSRF-TOKEN");
+            //services.AddAntiforgery();
+
             // Add framework services.
             services.AddApplicationInsightsTelemetry(Configuration);
 
@@ -62,10 +69,24 @@ namespace fishfarm
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IAntiforgery antiforgery)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
+
+            //app.Use(next => context =>
+            //{
+            //    // We can send the request token as a JavaScript-readable cookie, and Angular will use it by default.
+            //    var tokens = antiforgery.GetAndStoreTokens(context);
+            //    context.Response.Cookies.Append("XSRF-TOKEN", tokens.FormToken, new CookieOptions() { HttpOnly = false });
+            //    var formFields = new Dictionary<string, StringValues> ()
+            //    {
+            //        { "X-XSRF-TOKEN", context.Request.Headers["X-XSRF-TOKEN"]}
+            //    };
+            //    context.Request.Form = new FormCollection(formFields);
+
+            //    return next(context);
+            //});
 
             app.UseApplicationInsightsRequestTelemetry();
 
@@ -106,7 +127,7 @@ namespace fishfarm
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=Account}/{action=Login}/{id?}");
             });
         }
 

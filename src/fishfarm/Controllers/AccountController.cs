@@ -52,7 +52,7 @@ namespace fishfarm.Controllers
         // POST: /Account/Login
         [HttpPost]
         [AllowAnonymous]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginViewModel model, string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
@@ -64,7 +64,8 @@ namespace fishfarm.Controllers
                 if (result.Succeeded)
                 {
                     _logger.LogInformation(1, "User logged in.");
-                    return RedirectToLocal(returnUrl);
+                    
+                    return View("Index", "_LayoutNew");//RedirectToLocal(returnUrl);"_LayoutNew",
                 }
                 if (result.RequiresTwoFactor)
                 {
@@ -99,7 +100,7 @@ namespace fishfarm.Controllers
         // POST: /Account/Register
         [HttpPost]
         [AllowAnonymous]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
             if (ModelState.IsValid)
@@ -128,12 +129,13 @@ namespace fishfarm.Controllers
         //
         // POST: /Account/LogOff
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public async Task<IActionResult> LogOff()
         {
             await _signInManager.SignOutAsync();
             _logger.LogInformation(4, "User logged out.");
-            return RedirectToAction(nameof(HomeController.Index), "Home");
+            View("Login", "_LayoutLogin");
+            return Ok("Logout");//View("Login", "_LayoutLogin");
         }
 
         //

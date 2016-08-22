@@ -1,0 +1,122 @@
+﻿@using System.Security.Claims
+@*@Html.AntiForgeryToken()*@
+@*@if (User.IsSignedIn())
+    {*@
+@*@Html.AntiForgeryToken();*@
+@*<form asp-controller="Account" asp-action="LogOff" method="post" id="logoutForm" class="navbar-right">
+        <ul class="nav navbar-nav navbar-right">
+            <li>
+                <a asp-controller="Manage" asp-action="Index" title="Manage">Hello @User.GetUserName()!</a>
+            </li>
+            <li>
+                <button type="submit" class="btn btn-link navbar-btn navbar-link">Log off</button>
+            </li>
+        </ul>
+    </form>*@
+
+<!DOCTYPE html>
+<html data-ng-app="farm">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!-- Page title set in pageTitle directive -->
+    <title page-title></title>
+
+    <!-- Bootstrap -->
+    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- Font awesome -->
+    <link href="~/lib/Font-Awesome/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/lib/toastr/toastr.css" rel="stylesheet" />
+    <link href="~/lib/iCheck/skins/square/green.css" rel="stylesheet" />
+
+    <!-- Main CSS files -->
+    <link href="~/css/animate.css" rel="stylesheet" />
+    <link id="loadBefore" href="~/css/style.css" rel="stylesheet" />
+    <link href="~/css/site.css" rel="stylesheet" />
+
+</head>
+<body ng-controller="MainCtrl as main">
+    <!-- Main view  -->
+    <div ui-view></div>
+
+    @*<div class="container body-content">
+
+            <hr/>
+            <footer>
+                <p>&copy; 2016 - New</p>
+            </footer>
+        </div>*@
+    <!-- jQuery and Bootstrap -->
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/jquery-ui/jquery-ui.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="~/lib/toastr/toastr.min.js"></script>
+    <script src="~/lib/spinjs/spin.min.js"></script>
+    <!-- MetsiMenu -->
+    <script src="~/lib/metisMenu/dist/metisMenu.js"></script>
+    <script src="~/lib/api-check/dist/api-check.js"></script>
+    <!-- SlimScroll -->
+    <script src="~/lib/jquery.slimscroll/jquery.slimscroll.min.js"></script>
+
+    <!-- Peace JS -->
+    <script src="~/lib/pace/pace.min.js"></script>
+
+    <!-- Custom and plugin javascript -->
+    <script src="~/js/main.js"></script>
+    <script src="~/lib/iCheck/icheck.min.js"></script>
+
+    <!-- Main Angular scripts-->
+    <script src="~/lib/angular/angular.min.js"></script>
+    <script src="~/lib/angular-formly/dist/formly.min.js"></script>
+    <script src="~/lib/angular-sanitize/angular-sanitize.min.js"></script>
+    <script src="~/lib/oclazyload/dist/ocLazyLoad.min.js"></script>
+    @*<script src="js/angular-translate/angular-translate.min.js"></script>*@
+    <script src="~/lib/ui-router/release/angular-ui-router.min.js"></script>
+    <script src="~/lib/angular-permission/dist/angular-permission.min.js"></script>
+    <script src="~/lib/angular-permission/dist/angular-permission-ui.min.js"></script>
+    <script src="~/lib/ng-storage/ngStorage.min.js"></script>
+    <script src="~/lib/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+    @*<script src="js/plugins/angular-idle/angular-idle.js"></script>*@
+
+    @*<script type="text/javascript" src="
+        https://maps.googleapis.com/maps/api/js?key=AIzaSyDQTpXj82d8UpCi97wzo_nKXL7nYrd4G70"></script>*@
+
+    <!-- Anglar App Script -->
+    <script src="~/app/app.js"></script>
+    <script src="~/app/config.js"></script>
+
+    <!-- common Modules -->
+    <script src="~/app/common/common.js"></script>
+    <script src="~/app/common/logger.js"></script>
+    <script src="~/app/common/spinner.js"></script>
+
+
+    <!-- common Service -->
+    <script src="~/app/services/dataprovider.js"></script>
+    <script src="~/app/services/datacontext.js"></script>
+    <script src="~/app/services/filter.js"></script>
+
+    <script src="~/app/directives.js"></script>
+    <script src="~/app/controllers.js"></script>
+    <script src="~/app/views/login/login.js"></script>
+    <script src="~/app/views/login/logoff.js"></script>
+    <script src="~/app/views/dashboard/dashboard.js"></script>
+
+    <!-- Prodaction -->
+    <script src="~/app/views/production/productionStore.js"></script>
+    <script src="~/app/views/production/form.js"></script>
+
+    <!-- Admin -->
+    <script src="~/app/views/admin/admin.js"></script>
+
+    <script src="~/app/shell.js"></script>
+</body>
+</html>
+
+
+
+
+
