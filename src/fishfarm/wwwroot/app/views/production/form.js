@@ -11,8 +11,9 @@
         vm.form = {};
         vm.stores = [{ Name: 'Supplies' }, { Name: 'Raw' }, { Name: 'Milling' }, { Name: 'Milled' }, { Name: 'Extruder' }, { Name: 'Raw' }, { Name: 'Finish' }];
         vm.raws = [{ Name: 'Bones' }, { Name: 'Seashells' }, { Name: 'Blood' }, { Name: 'Mukene' }, { Name: 'Yeast' }, { Name: 'Sunflower cake' }, { Name: 'Premix' }];
-
+        var list = [];
         vm.add = function (list) {
+            //list
             list.push({});
         };
         $scope.up = function (index, list) {
@@ -23,6 +24,11 @@
             list.splice(index - 1, 2, list[index], list[index - 1]);
         }
 
+        $scope.save = function (item, part) {
+            //if(part ==1)
+            log(item + " added");
+        }
+        //$scope.save();
         $scope.down = function (index, list) {
             //var list = $rootScope.modal.project.images;
             if (index == -1) {
