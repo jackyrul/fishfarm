@@ -80,8 +80,8 @@ namespace Sklad
     {
         public Stage Stage { get; set; }
         public DateTime ActionedAt { get; set; }
-        public Order[] FromOrders { get; set; }
-        public Order[] ToOrders { get; set; }
+        public IEnumerable<Order> FromOrders { get; set; }
+        public IEnumerable<Order> ToOrders { get; set; }
     }
 
     public class OrdersContext : DbContext
@@ -120,18 +120,20 @@ namespace Sklad
                 .WillCascadeOnDelete(false);
         }
 
-        private IEnumerable<PerStage> GetPerStage(Expression<Func<Order, bool>> prefilter, Expression<Func<PerStage, bool>> postfilter)
+        private IEnumerable<PerStage> GetPerStage(Expression<Func<Order, bool>> prefilter, Func<PerStage, bool> postfilter)
         {
             using (var ctx = new OrdersContext())
             {
+                var empty = new Order[0];
                 var ret =
                     ctx.Orders.
                         Where(prefilter).
                         GroupBy(o => new { o.ActionedAt, o.From, o.To }).
-                        SelectMany(g => new[] { new { Stage = g.Key.From, g.Key.ActionedAt, FromOrders = g.ToList(), ToOrders = new List<Order>(0) },
-                                                new { Stage = g.Key.To, g.Key.ActionedAt, FromOrders = new List<Order>(0), ToOrders = g.ToList() } }).
+                        ToList().
+                        SelectMany(g => new[] { new PerStage { Stage = g.Key.From, ActionedAt = g.Key.ActionedAt, FromOrders = g, ToOrders = empty },
+                                                new PerStage { Stage = g.Key.To, ActionedAt = g.Key.ActionedAt, FromOrders = empty, ToOrders = g } }).
                         GroupBy(g => new { g.Stage, g.ActionedAt },
-                            (k, g) => g.Aggregate((state, e) => new { state.Stage, state.ActionedAt, FromOrders = state.FromOrders.Concat(e.FromOrders).ToList(), ToOrders = state.ToOrders.Concat(e.ToOrders).ToList() })).
+                            (k, g) => g.Aggregate((state, e) => new PerStage { Stage = state.Stage, ActionedAt = state.ActionedAt, FromOrders = state.FromOrders.Concat(e.FromOrders), ToOrders = state.ToOrders.Concat(e.ToOrders) })).
                         Select(oo => new PerStage { Stage = oo.Stage, ActionedAt = oo.ActionedAt, FromOrders = oo.FromOrders.ToArray(), ToOrders = oo.ToOrders.ToArray() }).
                         Where(postfilter).
                         ToList();
