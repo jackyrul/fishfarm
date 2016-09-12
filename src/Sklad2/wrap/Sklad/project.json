@@ -1,0 +1,15 @@
+{
+  "version": "1.0.0-*",
+  "frameworks": {
+    "net452": {
+      "wrappedProject": "../../Sklad/Sklad.csproj",
+      "bin": {
+        "assembly": "../../Sklad/obj/{configuration}/Sklad.dll",
+        "pdb": "../../Sklad/obj/{configuration}/Sklad.pdb"
+      },
+      "dependencies": {
+        "EntityFramework": "6.1.3"
+      }
+    }
+  }
+}

@@ -46,7 +46,7 @@ namespace Sklad.Web.Controllers
         {
             using (var ctx = new OrdersContext())
             {
-                return ctx.Orders.Select(ToGet);
+                return ctx.Orders.Select(ToGet).ToArray();
             }
         }
 

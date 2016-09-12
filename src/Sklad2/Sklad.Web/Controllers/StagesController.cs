@@ -14,7 +14,7 @@ namespace Sklad.Web.Controllers
         {
             using (var ctx = new OrdersContext())
             {
-                return ctx.Stages;
+                return ctx.Stages.ToArray();
             }
         }
 
