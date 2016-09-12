@@ -7,7 +7,15 @@ namespace Sklad.Web.Models
 {
     public class PipelineRuleSave
     {
-        public int FromId { get; set; }
-        public int ToId { get; set; }
+        public int StageFromId { get; set; }
+        public int StageToId { get; set; }
+    }
+
+    public class PipelineRuleGet : PipelineRuleSave
+    {
+        public int Id { get; set; }
+        public string StageFromName { get; set; }
+        public string StageToName { get; set; }
+        public DateTime CreatedOn { get; set; }
     }
 }

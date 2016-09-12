@@ -24,6 +24,5 @@ namespace Sklad.Web.Models
         public string StageFromName { get; set; }
         public string StageToName { get; set; }
         public DateTime CreatedOn { get; set; }
-
     }
 }

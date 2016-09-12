@@ -10,21 +10,32 @@ namespace Sklad.Web.Controllers
     [Route("api/[controller]")]
     public class PipelineRuleController : Controller
     {
+        private PipelineRuleGet ToGet(PipelineRule rule) =>
+            new PipelineRuleGet
+            {
+                Id = rule.Id,
+                StageFromId = rule.From.Id,
+                StageFromName = rule.From.Name,
+                StageToId = rule.To.Id,
+                StageToName = rule.To.Name,
+                CreatedOn = rule.CreatedAt
+            };
+
         [HttpGet]
-        public IEnumerable<PipelineRule> Get()
+        public IEnumerable<PipelineRuleGet> Get()
         {
             using (var ctx = new OrdersContext())
             {
-                return ctx.PipelineRules.ToArray();
+                return ctx.PipelineRules.Select(ToGet).ToArray();
             }
         }
 
         [HttpGet("{id}")]
-        public PipelineRule Get(int id)
+        public PipelineRuleGet Get(int id)
         {
             using (var ctx = new OrdersContext())
             {
-                return ctx.PipelineRules.FirstOrDefault(x => x.Id == id);
+                return ctx.PipelineRules.Select(ToGet).FirstOrDefault(x => x.Id == id);
             }
         }
 
@@ -36,8 +47,8 @@ namespace Sklad.Web.Controllers
                 var val = new PipelineRule
                 {
                     Id = 0,
-                    FromId = value.FromId,
-                    ToId = value.ToId,
+                    FromId = value.StageFromId,
+                    ToId = value.StageToId,
                     CreatedAt = DateTime.UtcNow,
                     CreatedBy = this.User.Identity.Name
                 };
@@ -60,8 +71,8 @@ namespace Sklad.Web.Controllers
                         Id = id,
                     };
                 }
-                val.FromId = value.FromId;
-                val.ToId = value.ToId;
+                val.FromId = value.StageFromId;
+                val.ToId = value.StageToId;
                 val.CreatedAt = DateTime.UtcNow;
                 val.CreatedBy = this.User.Identity.Name;
                 if (insert)

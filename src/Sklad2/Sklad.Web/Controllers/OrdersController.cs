@@ -36,8 +36,8 @@ namespace Sklad.Web.Controllers
                 StageName = ps.Stage.Name,
                 InKgs = ps.ToOrders.Sum(o => o.Kgs),
                 InBags = ps.ToOrders.Sum(o => o.Bags),
-                OutKgs = ps.ToOrders.Sum(o => o.Kgs),
-                OutBags = ps.ToOrders.Sum(o => o.Bags)
+                OutKgs = ps.FromOrders.Sum(o => o.Kgs),
+                OutBags = ps.FromOrders.Sum(o => o.Bags)
             };
 
         // GET api/values
@@ -57,9 +57,7 @@ namespace Sklad.Web.Controllers
         {
             using (var ctx = new OrdersContext())
             {
-                var order = ctx.Orders.FirstOrDefault(o => o.Id == id);
-                //return order != null ? (IActionResult) Json(ToGet(order)) : NotFound();
-                return order != null ? ToGet(order) : null;
+                return ctx.Orders.Select(ToGet).FirstOrDefault(o => o.Id == id);
             }
         }
 
