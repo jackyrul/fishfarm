@@ -94,13 +94,15 @@ namespace Sklad.Web.Controllers
                 var material = ctx.Materials.FirstOrDefault(m => m.Id == order.MaterialId);
                 var stageFrom = ctx.Stages.FirstOrDefault(s => s.Id == order.StageFromId);
                 var stageTo = ctx.Stages.FirstOrDefault(s => s.Id == order.StageToId);
+                var rule = ctx.PipelineRules.FirstOrDefault(r => r.FromId == order.StageFromId && r.ToId == order.StageToId);
                 var worker = ctx.Workers.FirstOrDefault(w => w.Id == order.WorkerId);
-                if (material == null 
-                    || stageFrom == null
-                    || stageTo == null
-                    || worker == null
-                    || order.Kgs < 0 //TODO: <= 0 ?
-                    || order.Bags < 0) return BadRequest();
+                if (material == null) return BadRequest("Material was not found");
+                if (stageFrom == null) return BadRequest("Stage From was not found");
+                if (stageTo == null) return BadRequest("Stage To was not found");
+                if (rule == null) return BadRequest("No Pipeline Rules found for the combination of From and To Stages");
+                if (worker == null) return BadRequest("Worker was not found");
+                if (order.Kgs < 0) return BadRequest("Negative KG amount was not accepted"); //TODO: <= 0 ?
+                if (order.Bags < 0) return BadRequest("Negative number of BAGS was not accepted");
 
                 var ord = new Order
                 {
@@ -110,7 +112,7 @@ namespace Sklad.Web.Controllers
                     ActionedAt = order.ActionedAt,
                     ActionedBy = worker,
                     CreatedAt = DateTime.UtcNow,
-                    CreatedBy = this.User.Identity.Name,
+                    CreatedBy = this.User.Identity.Name ?? "No User Provided!", // TODO: Add proper Authentication to the whole service
                     From = stageFrom,
                     To = stageTo
                 };
