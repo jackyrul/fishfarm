@@ -1,0 +1,42 @@
+<!-- Wrapper-->
+<div id="wrapper" data-ng-controller="shell as vm">
+
+    <!-- Navigation -->
+    <div ng-include="'app/views/common/navigation.html'"></div>
+
+    <!-- Page wraper -->
+    <!-- ng-class with current state name give you the ability to extended customization your view -->
+    <div id="page-wrapper" class="gray-bg {{$state.current.name}}">
+
+        <div data-ng-show="vm.isBusy" class="page-splash dissolve-animation">
+            <!--<div data-cc-spinner="vm.spinnerOptions"></div>-->
+            <div class="sk-spinner sk-spinner-three-bounce">
+                <div class="sk-bounce1"></div>
+                <div class="sk-bounce2"></div>
+                <div class="sk-bounce3"></div>
+            </div>
+            <!--<div class="page-splash-message page-splash-message-subtle" >LOADING...</div>-->
+        </div>
+        <!-- Page wrapper -->
+        <div ng-include="'app/views/common/topnavbar.html'"></div>
+
+        <!-- Breadcrumb -->
+        <div ng-include="'app/views/common/breadcrumb.html'"></div>
+
+        <!-- Main view  -->
+        <div ui-view></div>
+
+        <!-- Chat -->
+        <div ng-include="'app/views/common/chat.html'"></div>
+
+        <!-- Footer -->
+        <div ng-include="'app/views/common/footer.html'"></div>
+
+    </div>
+    <!-- End page wrapper-->
+
+    <!-- Right Sidebar -->
+    <div ng-include="'app/views/common/right_sidebar.html'"></div>
+
+</div>
+<!-- End wrapper-->
