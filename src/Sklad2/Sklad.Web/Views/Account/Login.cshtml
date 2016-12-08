@@ -1,0 +1,111 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - fishfarm</title>
+
+    <!-- Bootstrap -->
+    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet"/>
+
+    <!-- Font awesome -->
+    <link href="~/lib/Font-Awesome/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/lib/toastr/toastr.css" rel="stylesheet" />
+
+    <!-- Main CSS files -->
+    <link href="~/css/animate.css" rel="stylesheet" />
+    <link id="loadBefore" href="~/css/style.css" rel="stylesheet" />
+</head>
+<body>
+    @*<div class="container body-content">*@
+        @using System.Collections.Generic
+        @using Microsoft.AspNetCore.Http.Authentication
+        @using Microsoft.AspNetCore.Http
+        @model LoginViewModel
+        @inject SignInManager<ApplicationUser> SignInManager
+        @*@using Microsoft.AspNet.Http
+        @using Microsoft.AspNet.Http.Authentication
+        @model Sklad.Web.ViewModels.Account.LoginViewModel
+        @inject Microsoft.AspNet.Identity.SignInManager<ApplicationUser> SignInManager*@
+
+
+
+        @*<h2>@ViewData["Title"].</h2>*@
+        @*<div class="row">
+            <div class="col-md-8">*@
+        <div class="middle-box text-center loginscreen  animated fadeInDown">
+            <div>
+                <div>
+                    <h1 class="logo-name">FF</h1>
+                </div>
+                <h3>Welcome to FF+</h3>
+                <p>Login in. To see it in action.</p>
+                <section>
+                    <form asp-controller="Account" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal" role="form">
+                       
+                        <div asp-validation-summary="All" class="text-danger"></div>
+                        <div class="form-group">
+                            @*<label asp-for="Email" class="col-md-2 control-label"></label>*@
+                            <div>
+                                <input asp-for="Email" class="form-control" />
+                                <span asp-validation-for="Email" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @*<label asp-for="Password" class="col-md-2 control-label"></label>*@
+                            <div >
+                                <input asp-for="Password" class="form-control" />
+                                <span asp-validation-for="Password" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div >
+                                <div class="checkbox">
+                                    <input asp-for="RememberMe" />
+                                    <label asp-for="RememberMe"></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div >
+                                <button type="submit" class="btn btn-primary block full-width m-b">Log in</button>
+                            </div>
+                        </div>
+                        @*<p>
+                                <a asp-action="Register">Register as a new user?</a>
+                            </p>
+                            <p>
+                                <a asp-action="ForgotPassword">Forgot your password?</a>
+                            </p>*@
+                    </form>
+                </section>
+                @*</div>
+                    </div>*@
+
+                @*@section Scripts {
+                    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+                }*@
+                <p class="m-t"> <small>FishFarm &copy; 2016</small> </p>
+            </div>
+        </div>
+
+        <environment names="Development">
+            <script src="~/lib/jquery/dist/jquery.js"></script>
+            <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+            <script src="~/js/site.js" asp-append-version="true"></script>
+        </environment>
+        <environment names="Staging,Production">
+            <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.1.4.min.js"
+                    asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+                    asp-fallback-test="window.jQuery">
+            </script>
+            <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.5/bootstrap.min.js"
+                    asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
+                    asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal">
+            </script>
+            <script src="~/js/site.min.js" asp-append-version="true"></script>
+        </environment>
+
+       
+</body>
+</html>

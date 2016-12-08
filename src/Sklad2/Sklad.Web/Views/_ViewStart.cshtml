@@ -1,3 +1,19 @@
-﻿@{
+﻿
+@*@{
     Layout = "~/Views/_Layout.cshtml";
+}*@
+
+@{
+    //{
+    //    Layout = "~/Views/Shared/_Layout.cshtml";
+    //}
+    if (User.Identity.IsAuthenticated)//User.IsSignedIn()) // or other custom logic
+    {
+        //Layout = "~/Views/_LayoutLogin.cshtml";
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+    }
 }

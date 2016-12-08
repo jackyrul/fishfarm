@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Sklad.Web.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Sklad.Web.Controllers
 {
@@ -30,6 +31,11 @@ namespace Sklad.Web.Controllers
             };
 
             return View(model);
+        }
+
+        public IActionResult Error()
+        {
+            return View();
         }
     }
 }

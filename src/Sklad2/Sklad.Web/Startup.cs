@@ -8,6 +8,13 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Swashbuckle;
+using Sklad.Web.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+//using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+//using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace Sklad.Web
 {
@@ -38,7 +45,19 @@ namespace Sklad.Web
             // Add framework services.
             services.AddApplicationInsightsTelemetry(Configuration);
 
-            services.AddMvc();
+            var connection = "Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=Sklad;Integrated Security=True";//Catalog=fishfarmdb
+            services.AddEntityFramework().AddDbContext<ApplicationDbContext>(options =>
+                    options.UseSqlServer(connection));// Configuration["Data:DefaultConnection:ConnectionString"])); ;
+
+            //services.AddEntityFramework().AddDbContext<ApplicationDbContext>(options =>
+            //        options.UseSqlServer(config.GetConnectionString("DefaultConnection")));
+
+
+            services.AddIdentity<ApplicationUser, IdentityRole>()
+            .AddEntityFrameworkStores<ApplicationDbContext>()
+            .AddDefaultTokenProviders();
+
+            services.AddMvc();// AddMvcCore();
 
             services.AddSwaggerGen();
         }
@@ -49,25 +68,63 @@ namespace Sklad.Web
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
-            app.UseApplicationInsightsRequestTelemetry();
+            //app.UseIISPlatformHandler(options => options.AuthenticationDescriptions.Clear());
+
+            //app.UseApplicationInsightsRequestTelemetry();
 
             app.UseApplicationInsightsExceptionTelemetry();
-
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+                app.UseBrowserLink();
+                try
+                {
+                    using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>()
+                        .CreateScope())
+                    {
+                        serviceScope.ServiceProvider.GetService<ApplicationDbContext>()
+                             .Database.Migrate();
+                    }
+                }
+                catch { }
+            }
+            else
+            {
+                app.UseExceptionHandler("/Home/Error");
+                try
+                {
+                    using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>()
+                        .CreateScope())
+                    {
+                        serviceScope.ServiceProvider.GetService<ApplicationDbContext>()
+                             .Database.Migrate();
+                    }
+                }
+                catch { }
+            }
             app.UseStaticFiles();
+            app.UseIdentity();
+
+            //app.UseMvc(routes =>
+            //{
+            //    routes.MapRoute(
+            //        name: "default",
+            //        template: "{controller=Home}/{action=Index}/{id?}");
+            //});
 
             //app.UseMvc();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=Account}/{action=Login}/{id?}"); //"{ controller=Home}/{action=Index}/{id?}");
             });
 
             // Enable middleware to serve generated Swagger as a JSON endpoint
-            app.UseSwagger();
+            //app.UseSwagger();
 
             // Enable middleware to serve swagger-ui assets (HTML, JS, CSS etc.)
-            app.UseSwaggerUi();
+            // app.UseSwaggerUi();
 
         }
     }

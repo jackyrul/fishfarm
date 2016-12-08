@@ -5,12 +5,15 @@
 
 @{
     @*@Html.AntiForgeryToken();*@
-    if (User.Identity.IsAuthenticated)//User.IsSignedIn()) // or other custom logic
-    {
-        Layout = "~/Views/Shared/_LayoutNew.cshtml";
-    }
-    else
-    {
-        Layout = "~/Views/Shared/_LayoutLogin.cshtml";
-    }
+{
+    Layout = "~/Views/Shared/_LayoutNew.cshtml";
+}
+//if (User.Identity.IsAuthenticated)//User.IsSignedIn()) // or other custom logic
+//{
+//    Layout = "~/Views/Shared/_LayoutNew.cshtml";
+//}
+//else
+//{
+//    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+//}
 }
