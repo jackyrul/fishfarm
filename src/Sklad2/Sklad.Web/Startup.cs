@@ -47,7 +47,7 @@ namespace Sklad.Web
 
             var connection = "Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=Sklad;Integrated Security=True";//Catalog=fishfarmdb
             services.AddEntityFramework().AddDbContext<ApplicationDbContext>(options =>
-                    options.UseSqlServer(connection));// Configuration["Data:DefaultConnection:ConnectionString"])); ;
+                    options.UseSqlServer(Configuration["Data:DefaultConnection:ConnectionString"]));
 
             //services.AddEntityFramework().AddDbContext<ApplicationDbContext>(options =>
             //        options.UseSqlServer(config.GetConnectionString("DefaultConnection")));
@@ -93,12 +93,12 @@ namespace Sklad.Web
                 app.UseExceptionHandler("/Home/Error");
                 try
                 {
-                    using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>()
-                        .CreateScope())
-                    {
-                        serviceScope.ServiceProvider.GetService<ApplicationDbContext>()
-                             .Database.Migrate();
-                    }
+                    //using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>()
+                    //    .CreateScope())
+                    //{
+                    //    serviceScope.ServiceProvider.GetService<ApplicationDbContext>()
+                    //         .Database.Migrate();
+                    //}
                 }
                 catch { }
             }

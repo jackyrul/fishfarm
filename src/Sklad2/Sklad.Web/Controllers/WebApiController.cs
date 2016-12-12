@@ -19,12 +19,12 @@ namespace Sklad.Web.Controllers
     public class WebApiController : Controller
     {
         private ApplicationDbContext _context;
-        private readonly UserManager<Sklad.Web.Models.ApplicationUser> _userManager;
-        private readonly SignInManager<Sklad.Web.Models.ApplicationUser> _signInManager;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ILogger _logger;
 
-        public WebApiController(ApplicationDbContext context, UserManager<Sklad.Web.Models.ApplicationUser> userManager,
-            SignInManager<Sklad.Web.Models.ApplicationUser> signInManager, ILoggerFactory loggerFactory)
+        public WebApiController(ApplicationDbContext context, UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager, ILoggerFactory loggerFactory)
         {
             _context = context;
             _userManager = userManager;
@@ -39,7 +39,7 @@ namespace Sklad.Web.Controllers
         //    {
         //        return BadRequest(ModelState);
         //    }
-        //    Sklad.Web.Models.ApplicationUser applicationUser = GetCurrentUserAsync();
+        //    ApplicationUser applicationUser = GetCurrentUserAsync();
         //    if (applicationUser.Result == null)
         //    {
         //        return NotFound();
@@ -61,7 +61,7 @@ namespace Sklad.Web.Controllers
             id = "19cb6cb4-3ae1-4df8-b258-52dc6cca3fdd";
             //ApplicationUser applicationUser = new ApplicationUser()
             //{ Email = "jackyrul@mail.ru",Id = "1",Roles = { new IdentityUserRole<string>() {RoleId = "1"} },UserName = "Jackyrul"};
-            Sklad.Web.Models.ApplicationUser applicationUser = _context.ApplicationUser.Single(m => m.Id == id);
+            ApplicationUser applicationUser = _context.ApplicationUser.Single(m => m.Id == id);
 
             if (applicationUser == null)
             {
@@ -133,7 +133,7 @@ namespace Sklad.Web.Controllers
         [HttpGet("AddRoleToUser/{userId}&{roleId}")]
         public async Task<IActionResult> AddRoleToUser([FromRoute] string userId, [FromRoute] string roleId)
         {
-            Sklad.Web.Models.ApplicationUser applicationUser = _context.ApplicationUser.Single(m => m.Id == userId);
+            ApplicationUser applicationUser = _context.ApplicationUser.Single(m => m.Id == userId);
 
             var role = _context.Roles.Where(r => r.Id == roleId).Select(r => r.Name).FirstOrDefault();
             if (role == null)
@@ -158,7 +158,7 @@ namespace Sklad.Web.Controllers
         [HttpGet("ChangeUserRole/{userId}&{roleId}")]
         public async Task<IActionResult> ChangeUserRole([FromRoute] string userId, [FromRoute] string roleId)
         {
-            Sklad.Web.Models.ApplicationUser applicationUser = _context.ApplicationUser.Single(m => m.Id == userId);
+            ApplicationUser applicationUser = _context.ApplicationUser.Single(m => m.Id == userId);
 
             var roles = _context.Roles;
 
@@ -197,7 +197,7 @@ namespace Sklad.Web.Controllers
                 {
                     return BadRequest("User already exist");
                 }
-                var user = new Sklad.Web.Models.ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -257,7 +257,7 @@ namespace Sklad.Web.Controllers
             IList<string> roles = new List<string>();
             if (!string.IsNullOrWhiteSpace(UserName))
             {
-                Sklad.Web.Models.ApplicationUser user = _context.Users.FirstOrDefault(u => u.UserName.Equals(UserName, StringComparison.CurrentCultureIgnoreCase));
+                ApplicationUser user = _context.Users.FirstOrDefault(u => u.UserName.Equals(UserName, StringComparison.CurrentCultureIgnoreCase));
                 roles = _userManager.GetRolesAsync(user).Result;
             }
             //else
@@ -323,7 +323,7 @@ namespace Sklad.Web.Controllers
                 return BadRequest(ModelState);
             }
 
-            Sklad.Web.Models.ApplicationUser applicationUser = _context.ApplicationUser.Single(m => m.Email == email);
+            ApplicationUser applicationUser = _context.ApplicationUser.Single(m => m.Email == email);
             if (applicationUser == null)
             {
                 return NotFound();
@@ -348,7 +348,7 @@ namespace Sklad.Web.Controllers
         {
             return _context.ApplicationUser.Count(e => e.Email == email) > 0;
         }
-        private async Task<Sklad.Web.Models.ApplicationUser> GetCurrentUserAsync()
+        private async Task<ApplicationUser> GetCurrentUserAsync()
         {
             return await _userManager.GetUserAsync(HttpContext.User);// _userManager.GetUserIdAsync(ApplicationUser.User);//HttpContext.User.GetUserId()
         }

@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNet.Identity.EntityFramework;
+﻿//using Microsoft.AspNet.Identity.EntityFramework;
+//using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -47,13 +49,8 @@ namespace Sklad
 
     public class ApplicationUser : IdentityUser
     {
-        //public string Email { get; set; }
-        //public string UserName { get; set; }
-    }
-    //public class Admin : IdentityUser
-    //{
 
-    //}
+    }
 
     public class PipelineRule : DbEntity<int>
     {
@@ -108,7 +105,7 @@ namespace Sklad
         public DbSet<Worker> Workers { get; set; }
         public DbSet<Stage> Stages { get; set; }
         public DbSet<PipelineRule> PipelineRules { get; set; }
-        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
+        //public DbSet<ApplicationUser> ApplicationUsers { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -130,16 +127,38 @@ namespace Sklad
                 .HasRequired(c => c.To)
                 .WithMany()
                 .WillCascadeOnDelete(false);
+            //modelBuilder.Entity<ApplicationUser>();
 
-            modelBuilder.Entity<IdentityUserLogin>().HasKey(l => l.UserId);
-            modelBuilder.Entity<IdentityRole>().HasKey(r => r.Id).Property(r => r.Name).HasColumnAnnotation("MaxLength", 256);
-            modelBuilder.Entity<IdentityUserRole>().HasKey(r => new { r.RoleId, r.UserId });
-            ////////////
+            modelBuilder.Entity<IdentityRole>().HasKey<string>(r => r.Id).ToTable("AspNetRoles");
+            modelBuilder.Entity<ApplicationUser>().HasKey<string>(a => a.Id).ToTable("AspNetUsers");
+            //modelBuilder.Entity<IdentityUser>().Property(p => p.Id).HasColumnName("Id");
+            //modelBuilder.Entity<IdentityUser>().ToTable("NetUsers");
+            //modelBuilder.Entity<IdentityUserRole<string>>();
+
+            //modelBuilder.Entity<IdentityUserRole<string>>()
+            //    .Property(p =>  p.UserId);
+            //modelBuilder.Entity<IdentityUserRole<string>>().Property(p => p.UserId);
+            //    modelBuilder.Entity<IdentityUserRole<string>>().HasKey(r => new { r.RoleId, r.UserId }).ToTable("AspNetUserRoles");
+            //Map(a =>
+            //{
+            //    //a.MapInheritedProperties();
+            //    //a.Properties(p => new { p.RoleId, p.UserId });
+            //    a.ToTable("AspNetUserRoles");
+            //    //a.HasTableAnnotation("Relational:TableName", "AspNetUserRoles");
+            //    //a.HasKey(r => new { r.RoleId, r.UserId });
+            //});
+            //modelBuilder.Entity<IdentityUserLogin<string>>().HasKey(l => new { l.UserId, l.LoginProvider, l.ProviderKey }).ToTable("AspNetUserLogins");
+
+
+            //modelBuilder.Entity<IdentityUserClaim<string>>().ToTable("AspNetUserClaims");
+
+            //modelBuilder.Entity<IdentityUserLogin<>>().HasKey(l => l.UserId);
+            //modelBuilder.Entity<IdentityRole>().HasKey(r => r.Id).Property(r => r.Name).HasColumnAnnotation("MaxLength", 256);
+            //modelBuilder.Entity<IdentityUserRole>().HasKey(r => new { r.RoleId, r.UserId });
+            ////////
             //modelBuilder
             //   .HasAnnotation("ProductVersion", "7.0.0-beta8")
             //   .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-            //modelBuilder.Entity<ApplicationUser>().Property(a=>a.UserName)
-            //        .HasAnnotation("MaxLength", 256).ToTable("SystemUsers");
             //modelBuilder.Entity<IdentityRole>().Property(r => r.Id);
             //modelBuilder.Entity<IdentityRole>().Property(r => r.Name).HasColumnAnnotation("MaxLength", 256);
             //modelBuilder.Entity<IdentityRole>().Property(r => r.ConcurrencyStamp);
@@ -151,98 +170,8 @@ namespace Sklad
             //HasTableAnnotation("MaxLength", 256)           
             //.ToTable("AspNetRoles");
             //modelBuilder.Entity<IdentityUserRole>().ToTable("AspNetUserRoles");
+            //modelBuilder.Entity<IdentityRole>().Map(a => a.Property<string>("Id"));
 
-            //modelBuilder.Entity("Microsoft.AspNet.Identity.EntityFramework.IdentityRole", b =>
-            //{
-            //    b.Property<string>("Id");
-
-            //    b.Property<string>("ConcurrencyStamp")
-            //        .IsConcurrencyToken();
-
-            //    b.Property<string>("Name")
-            //        .HasAnnotation("MaxLength", 256);
-
-            //    b.Property<string>("NormalizedName")
-            //        .HasAnnotation("MaxLength", 256);
-
-            //    b.HasKey("Id");
-
-            //    b.HasIndex("NormalizedName")
-            //        .HasAnnotation("Relational:Name", "RoleNameIndex");
-
-            //    b.HasAnnotation("Relational:TableName", "AspNetRoles");
-            //});
-
-
-            //modelBuilder.Entity("Microsoft.AspNet.Identity.EntityFramework.IdentityUserRole<string>", b =>
-            //{
-            //    b.Property<string>("UserId");
-
-            //    b.Property<string>("RoleId");
-
-            //    b.HasKey("UserId", "RoleId");
-
-            //    b.HasAnnotation("Relational:TableName", "AspNetUserRoles");
-            //});
-
-            //modelBuilder.Entity("Farm.Web.Models.ApplicationUser", b =>
-            //{
-            //    b.Property<string>("Id");
-
-            //    b.Property<int>("AccessFailedCount");
-
-            //    b.Property<string>("ConcurrencyStamp")
-            //        .IsConcurrencyToken();
-
-            //    b.Property<string>("Email")
-            //        .HasAnnotation("MaxLength", 256);
-
-            //    b.Property<bool>("EmailConfirmed");
-
-            //    b.Property<bool>("LockoutEnabled");
-
-            //    b.Property<DateTimeOffset?>("LockoutEnd");
-
-            //    b.Property<string>("NormalizedEmail")
-            //        .HasAnnotation("MaxLength", 256);
-
-            //    b.Property<string>("NormalizedUserName")
-            //        .HasAnnotation("MaxLength", 256);
-
-            //    b.Property<string>("PasswordHash");
-
-            //    b.Property<string>("PhoneNumber");
-
-            //    b.Property<bool>("PhoneNumberConfirmed");
-
-            //    b.Property<string>("SecurityStamp");
-
-            //    b.Property<bool>("TwoFactorEnabled");
-
-            //    b.Property<string>("UserName")
-            //        .HasAnnotation("MaxLength", 256);
-
-            //    b.HasKey("Id");
-
-            //    b.HasIndex("NormalizedEmail")
-            //        .HasAnnotation("Relational:Name", "EmailIndex");
-
-            //    b.HasIndex("NormalizedUserName")
-            //        .HasAnnotation("Relational:Name", "UserNameIndex");
-
-            //    b.HasAnnotation("Relational:TableName", "AspNetUsers");
-            //});
-
-            //modelBuilder.Entity("Microsoft.AspNet.Identity.EntityFramework.IdentityUserRole<string>", b =>
-            //{
-            //    b.HasOne("Microsoft.AspNet.Identity.EntityFramework.IdentityRole")
-            //        .WithMany()
-            //        .HasForeignKey("RoleId");
-
-            //    b.HasOne("Farm.Web.Models.ApplicationUser")
-            //        .WithMany()
-            //        .HasForeignKey("UserId");
-            //});
         }
 
         private IEnumerable<PerStage> GetPerStage(Expression<Func<Order, bool>> prefilter, Func<PerStage, bool> postfilter)
