@@ -129,8 +129,8 @@ namespace Sklad
                 .WillCascadeOnDelete(false);
             //modelBuilder.Entity<ApplicationUser>();
 
-            modelBuilder.Entity<IdentityRole>().HasKey<string>(r => r.Id).ToTable("AspNetRoles");
-            modelBuilder.Entity<ApplicationUser>().HasKey<string>(a => a.Id).ToTable("AspNetUsers");
+            //modelBuilder.Entity<IdentityRole>().HasKey<string>(r => r.Id).ToTable("AspNetRoles");
+            //modelBuilder.Entity<ApplicationUser>().HasKey<string>(a => a.Id).ToTable("AspNetUsers");
             //modelBuilder.Entity<IdentityUser>().Property(p => p.Id).HasColumnName("Id");
             //modelBuilder.Entity<IdentityUser>().ToTable("NetUsers");
             //modelBuilder.Entity<IdentityUserRole<string>>();

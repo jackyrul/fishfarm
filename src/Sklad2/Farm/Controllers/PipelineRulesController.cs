@@ -11,6 +11,11 @@ namespace Farm.Web.Controllers
     [Route("api/[controller]")]
     public class PipelineRuleController : Controller
     {
+        private readonly ApplicationDbContext _context;
+        public PipelineRuleController(ApplicationDbContext context)
+        {
+            _context = context;
+        }
         private PipelineRuleGet ToGet(PipelineRule rule) =>
             new PipelineRuleGet
             {
@@ -25,7 +30,7 @@ namespace Farm.Web.Controllers
         [HttpGet]
         public IEnumerable<PipelineRuleGet> Get()
         {
-            using (var ctx = new OrdersContext())
+            using (var ctx = _context)
             {
                 return ctx.PipelineRules.Select(ToGet).ToArray();
             }
@@ -34,7 +39,7 @@ namespace Farm.Web.Controllers
         [HttpGet("{id}")]
         public PipelineRuleGet Get(int id)
         {
-            using (var ctx = new OrdersContext())
+            using (var ctx = _context)
             {
                 return ctx.PipelineRules.Select(ToGet).FirstOrDefault(x => x.Id == id);
             }
@@ -43,7 +48,7 @@ namespace Farm.Web.Controllers
         [HttpPost]
         public void Post([FromBody]PipelineRuleSave value)
         {
-            using (var ctx = new OrdersContext())
+            using (var ctx = _context)
             {
                 var val = new PipelineRule
                 {
@@ -61,7 +66,7 @@ namespace Farm.Web.Controllers
         [HttpPut("{id}")]
         public void Put(int id, [FromBody]PipelineRuleSave value)
         {
-            using (var ctx = new OrdersContext())
+            using (var ctx = _context)
             {
                 var val = ctx.PipelineRules.FirstOrDefault(x => x.Id == id);
                 var insert = false;
@@ -87,7 +92,7 @@ namespace Farm.Web.Controllers
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
-            using (var ctx = new OrdersContext())
+            using (var ctx = _context)
             {
                 var val = ctx.PipelineRules.FirstOrDefault(x => x.Id == id);
                 if (val != null)

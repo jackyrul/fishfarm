@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Farm.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using Sklad;
 
@@ -9,10 +10,15 @@ namespace Farm.Web.Controllers
     [Route("api/[controller]")]
     public class WorkerController : Controller
     {
+        private readonly ApplicationDbContext _context;
+        public WorkerController(ApplicationDbContext context)
+        {
+            _context = context;
+        }
         [HttpGet]
         public IEnumerable<Worker> Get()
         {
-            using (var ctx = new OrdersContext())
+            using (var ctx = _context)
             {
                 return ctx.Workers.ToArray();
             }
@@ -21,7 +27,7 @@ namespace Farm.Web.Controllers
         [HttpGet("{id}")]
         public Worker Get(int id)
         {
-            using (var ctx = new OrdersContext())
+            using (var ctx = _context)
             {
                 return ctx.Workers.FirstOrDefault(x => x.Id == id);
             }
@@ -30,7 +36,7 @@ namespace Farm.Web.Controllers
         [HttpPost]
         public void Post([FromBody]Worker value)
         {
-            using (var ctx = new OrdersContext())
+            using (var ctx = _context)
             {
                 value.Id = 0; // Making the Id to be set by the Database
                 value.CreatedAt = DateTime.UtcNow;
@@ -43,7 +49,7 @@ namespace Farm.Web.Controllers
         [HttpPut("{id}")]
         public void Put(int id, [FromBody]Worker value)
         {
-            using (var ctx = new OrdersContext())
+            using (var ctx = _context)
             {
                 value.Id = id;
                 var val = ctx.Workers.FirstOrDefault(x => x.Id == id);
@@ -67,7 +73,7 @@ namespace Farm.Web.Controllers
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
-            using (var ctx = new OrdersContext())
+            using (var ctx = _context)
             {
                 var val = ctx.Workers.FirstOrDefault(x => x.Id == id);
                 if (val != null)

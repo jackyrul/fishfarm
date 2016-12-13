@@ -18,13 +18,13 @@ namespace Farm.Web.Controllers
     [Route("api")]
     public class WebApiController : Controller
     {
-        private ApplicationDbContext _context;
-        private readonly UserManager<Farm.Web.Models.ApplicationUser> _userManager;
-        private readonly SignInManager<Farm.Web.Models.ApplicationUser> _signInManager;
+        private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ILogger _logger;
 
-        public WebApiController(ApplicationDbContext context, UserManager<Farm.Web.Models.ApplicationUser> userManager,
-            SignInManager<Farm.Web.Models.ApplicationUser> signInManager, ILoggerFactory loggerFactory)
+        public WebApiController(ApplicationDbContext context, UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager, ILoggerFactory loggerFactory)
         {
             _context = context;
             _userManager = userManager;
@@ -39,7 +39,7 @@ namespace Farm.Web.Controllers
         //    {
         //        return BadRequest(ModelState);
         //    }
-        //    Farm.Web.Models.ApplicationUser applicationUser = GetCurrentUserAsync();
+        //    ApplicationUser applicationUser = GetCurrentUserAsync();
         //    if (applicationUser.Result == null)
         //    {
         //        return NotFound();
@@ -61,7 +61,7 @@ namespace Farm.Web.Controllers
             id = "19cb6cb4-3ae1-4df8-b258-52dc6cca3fdd";
             //ApplicationUser applicationUser = new ApplicationUser()
             //{ Email = "jackyrul@mail.ru",Id = "1",Roles = { new IdentityUserRole<string>() {RoleId = "1"} },UserName = "Jackyrul"};
-            Farm.Web.Models.ApplicationUser applicationUser = _context.ApplicationUser.Single(m => m.Id == id);
+            ApplicationUser applicationUser = _context.ApplicationUser.Single(m => m.Id == id);
 
             if (applicationUser == null)
             {
@@ -207,7 +207,7 @@ namespace Farm.Web.Controllers
                 {
                     return BadRequest("User already exist");
                 }
-                var user = new Farm.Web.Models.ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -267,7 +267,7 @@ namespace Farm.Web.Controllers
             IList<string> roles = new List<string>();
             if (!string.IsNullOrWhiteSpace(UserName))
             {
-                Farm.Web.Models.ApplicationUser user = _context.Users.FirstOrDefault(u => u.UserName.Equals(UserName, StringComparison.CurrentCultureIgnoreCase));
+                ApplicationUser user = _context.Users.FirstOrDefault(u => u.UserName.Equals(UserName, StringComparison.CurrentCultureIgnoreCase));
                 roles = _userManager.GetRolesAsync(user).Result;
             }
             //else
@@ -333,7 +333,7 @@ namespace Farm.Web.Controllers
                 return BadRequest(ModelState);
             }
 
-            Farm.Web.Models.ApplicationUser applicationUser = _context.ApplicationUser.Single(m => m.Email == email);
+            ApplicationUser applicationUser = _context.ApplicationUser.Single(m => m.Email == email);
             if (applicationUser == null)
             {
                 return NotFound();
@@ -358,9 +358,19 @@ namespace Farm.Web.Controllers
         {
             return _context.ApplicationUser.Count(e => e.Email == email) > 0;
         }
-        private async Task<Farm.Web.Models.ApplicationUser> GetCurrentUserAsync()
+        private async Task<ApplicationUser> GetCurrentUserAsync()
         {
             return await _userManager.GetUserAsync(HttpContext.User);// _userManager.GetUserIdAsync(ApplicationUser.User);//HttpContext.User.GetUserId()
         }
+
+        [HttpGet("mat")]
+        public IEnumerable<Sklad.Material> Get()
+        {
+            using (var ctx = _context)
+            {
+                return ctx.Materials.ToArray();
+            }
+        }
+
     }
 }

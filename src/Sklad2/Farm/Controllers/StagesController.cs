@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Farm.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using Sklad;
 
@@ -10,10 +11,15 @@ namespace Farm.Web.Controllers
     [Route("api/[controller]")]
     public class StagesController : Controller
     {
+        private readonly ApplicationDbContext _context;
+        public StagesController(ApplicationDbContext context)
+        {
+            _context = context;
+        }
         [HttpGet]
         public IEnumerable<Stage> Get()
         {
-            using (var ctx = new OrdersContext())
+            using (var ctx = _context)
             {
                 return ctx.Stages.ToArray();
             }
@@ -22,7 +28,7 @@ namespace Farm.Web.Controllers
         [HttpGet("{id}")]
         public Stage Get(int id)
         {
-            using (var ctx = new OrdersContext())
+            using (var ctx = _context)
             {
                 return ctx.Stages.FirstOrDefault(x => x.Id == id);
             }
@@ -31,7 +37,7 @@ namespace Farm.Web.Controllers
         [HttpPost]
         public void Post([FromBody]Stage value)
         {
-            using (var ctx = new OrdersContext())
+            using (var ctx = _context)
             {
                 value.Id = 0; // Making the Id to be set by the Database
                 value.CreatedAt = DateTime.UtcNow;
@@ -44,7 +50,7 @@ namespace Farm.Web.Controllers
         [HttpPut("{id}")]
         public void Put(int id, [FromBody]Stage value)
         {
-            using (var ctx = new OrdersContext())
+            using (var ctx = _context)
             {
                 value.Id = id;
                 var val = ctx.Stages.FirstOrDefault(x => x.Id == id);
@@ -68,7 +74,7 @@ namespace Farm.Web.Controllers
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
-            using (var ctx = new OrdersContext())
+            using (var ctx = _context)
             {
                 var val = ctx.Stages.FirstOrDefault(x => x.Id == id);
                 if (val != null)

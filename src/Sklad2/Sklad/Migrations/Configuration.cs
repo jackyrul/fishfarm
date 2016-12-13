@@ -30,7 +30,8 @@ namespace Sklad.Migrations
 
             context.Materials.AddOrUpdate(
                 m => m.Name,
-                Names.Users.Select(u => new Material { Name = u, CreatedBy = "System", CreatedAt = dt }).ToArray());
+               Names.Materials.Select(u => new Material { Name = u, CreatedBy = "System", CreatedAt = dt }).ToArray());
+            //Names.Materials.Select(u => new Material { Name = u, CreatedBy = "System", CreatedAt = dt }).ToArray());
 
             var stages = Names.Stages.Select(s => new Stage { Name = s, CreatedBy = "System", CreatedAt = dt }).ToArray();
 

@@ -11,6 +11,11 @@ namespace Farm.Web.Controllers
     [Route("api/[controller]")]
     public class OrdersController : Controller
     {
+        private readonly ApplicationDbContext _context;
+        public OrdersController(ApplicationDbContext context)
+        {
+            _context = context;
+        }
         private OrderGet ToGet(Order order) =>
             new OrderGet
             {
@@ -44,7 +49,7 @@ namespace Farm.Web.Controllers
         [HttpGet]
         public IEnumerable<OrderGet> Get()
         {
-            using (var ctx = new OrdersContext())
+            using (var ctx = _context)
             {
                 return ctx.Orders.Select(ToGet).ToArray();
             }
@@ -55,7 +60,7 @@ namespace Farm.Web.Controllers
         //public IActionResult Get(Guid id)
         public OrderGet Get(Guid id)
         {
-            using (var ctx = new OrdersContext())
+            using (var ctx = _context)
             {
                 return ctx.Orders.Select(ToGet).FirstOrDefault(o => o.Id == id);
             }
@@ -65,7 +70,7 @@ namespace Farm.Web.Controllers
         [HttpGet("stage/{stageid}")]
         public SumsPerStage GetPerStage(int stageid)
         {
-            using (var ctx = new OrdersContext())
+            using (var ctx = _context)
             {
                 return ctx.
                     GetForStage(stageid).
@@ -77,7 +82,7 @@ namespace Farm.Web.Controllers
         [HttpGet("stage")]
         public IEnumerable<SumsPerStage> GetPerStages()
         {
-            using (var ctx = new OrdersContext())
+            using (var ctx = _context)
             {
                 return ctx.
                     GetForAllStages().
@@ -89,7 +94,7 @@ namespace Farm.Web.Controllers
         [HttpPost]
         public IActionResult Post([FromBody]OrderSave order)
         {
-            using (var ctx = new OrdersContext())
+            using (var ctx = _context)
             {
                 var material = ctx.Materials.FirstOrDefault(m => m.Id == order.MaterialId);
                 var stageFrom = ctx.Stages.FirstOrDefault(s => s.Id == order.StageFromId);
@@ -134,7 +139,7 @@ namespace Farm.Web.Controllers
         public IActionResult Delete(Guid id)
         {
             //TODO: Add audit
-            using (var ctx = new OrdersContext())
+            using (var ctx = _context)
             {
                 var order = ctx.Orders.FirstOrDefault(o => o.Id == id);
                 ctx.Orders.Remove(order);
