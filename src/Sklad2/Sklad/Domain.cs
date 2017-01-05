@@ -47,10 +47,10 @@ namespace Sklad
     {
     }
 
-    public class ApplicationUser : IdentityUser
-    {
+    //public class ApplicationUser : IdentityUser
+    //{
 
-    }
+    //}
 
     public class PipelineRule : DbEntity<int>
     {
@@ -127,6 +127,9 @@ namespace Sklad
                 .HasRequired(c => c.To)
                 .WithMany()
                 .WillCascadeOnDelete(false);
+
+            //modelBuilder.Entity<Order>().Property(e => e.Id).ValueGeneratedOnAdd();
+            //modelBuilder.Entity<Order>().Property(e => e.Id).HasDefaultValueSql("newsequentialid()");
             //modelBuilder.Entity<ApplicationUser>();
 
             //modelBuilder.Entity<IdentityRole>().HasKey<string>(r => r.Id).ToTable("AspNetRoles");

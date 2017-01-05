@@ -221,28 +221,23 @@
   <ItemGroup>
     <Compile Include="Domain.cs" />
     <None Include="Class2.csx" />
-    <Compile Include="Migrations\201608220744017_Initial.cs" />
-    <Compile Include="Migrations\201608220744017_Initial.Designer.cs">
-      <DependentUpon>201608220744017_Initial.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201612130839027_new.cs" />
-    <Compile Include="Migrations\201612130839027_new.Designer.cs">
-      <DependentUpon>201612130839027_new.cs</DependentUpon>
+    <Compile Include="Migrations\201701052019338_init.cs" />
+    <Compile Include="Migrations\201701052019338_init.Designer.cs">
+      <DependentUpon>201701052019338_init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Names.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201608220744017_Initial.resx">
-      <DependentUpon>201608220744017_Initial.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201612130839027_new.resx">
-      <DependentUpon>201612130839027_new.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201701052019338_init.resx">
+      <DependentUpon>201701052019338_init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
